@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './MyStyles.css	'
+
 //npm run dev to run app
 const Calc = () => {
 
