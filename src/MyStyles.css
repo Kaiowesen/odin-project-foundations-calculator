@@ -1,0 +1,54 @@
+.primary {
+    color: orange;
+}
+.font-xl {
+    font-size: 72px;
+}
+/* .calc-flex > button {
+    width: fit-content;
+    height: fit-content;
+} */
+
+.main-flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.calc-flex {
+    display: flex-wrap;
+    height: 750px;
+    width: 600px;
+    margin-top: 100px;
+    
+}
+.calc-flex>button {
+width: 150px;
+height: 250px;
+background-color: bisque;
+font-size:xx-large;
+font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.calc-flex>button:hover {
+    background-color: antiquewhite;
+    cursor: pointer;
+}
+h2 {
+    text-align: center;
+    width: 600px;
+    height: fit-content;
+    background-color:burlywood;
+    margin-bottom: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: xx-large;
+    border-radius: 5px;
+
+ }
+ .result-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    background-color: bisque;
+ }
+ 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './MyStyles.css	'
 //npm run dev to run app
 const Calc = () => {
 
@@ -34,25 +35,26 @@ const Calc = () => {
 		operator = null;
 	}
 	const calculate = () => {
-		let operatorIndex = input.findIndex(operator);
-		setSecondNumber(input.filter(index => index > operatorIndex))
-		console.log(secondNumber);
+		console.log(operator);
+		let operatorIndex = input.findIndex(x => x == operator);
+		setSecondNumber(input.filter(index => index > operatorIndex).join(""))
+		console.log(`operator: ${operator} first number ${firstNumber} second number ${secondNumber}`)
+		setTotalsum(operate(operator, parseInt(firstNumber), parseInt(secondNumber)))
+
 	}
-	const operate = ((operator: string, num1: number, num2: number) => {
-		// if(operator !== input[input.length-1]) {
-		//   addItem(operator)
-		// }
+	const operate = ((operator, num1, num2) => {
+
 		if (operator == "+") {
-			return add(num1, num2)
+			return num1 + num2
 		}
-		if (operator == "'") {
-			return subtract(num1, num2)
+		if (operator == "-") {
+			return num1 - num2
 		}
 		if (operator == "/") {
-			return divide(num1, num2)
+			return num1 / num2
 		}
 		if (operator == "*") {
-			return multiply(num1, num2)
+			return num1 * num2
 		}
 		else return
 	})
@@ -63,13 +65,11 @@ const Calc = () => {
 
 	const addOperator = (event) => {
 
-		console.log(`operator: ${operator} event.target.id ${event.target.id}`)
-		if (firstNumber !== null && operator !== null)
 
-			if (firstNumber === null) {
-				setFirstNumber(parseInt(input.join("")));
-				console.log(firstNumber);
-			}
+		if (firstNumber === null) {
+			setFirstNumber(parseInt(input.join("")));
+			console.log(firstNumber);
+		}
 		//if operator equals last element in input, do nothing,
 		if (event.target.id == input[input.length - 1]) {
 			console.log("returns because same value")
@@ -83,6 +83,7 @@ const Calc = () => {
 			setOperator(event.target.id)
 			console.log("adding in else" + operator)
 		}
+		console.log(`operator: ${operator} first number ${firstNumber} event.target.id ${event.target.id}`)
 
 
 		// } else if (event.target.id !== input[input.length - 1] && operator !== null) {
