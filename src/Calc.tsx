@@ -6,6 +6,7 @@ const Calc = () => {
 	const initialState = ""
 
 	let [operator, setOperator] = useState(initialState);
+	let [secondOperator, setSecondOperator] = useState(initialState)
 	let [firstNumber, setFirstNumber] = useState(initialState);
 	let [secondNumber, setSecondNumber] = useState(initialState);
 	let [totalsum, setTotalsum] = useState(null)
@@ -18,17 +19,19 @@ const Calc = () => {
 		setOperator(initialState);
 		setTotalsum(null);
 	};
-	const resetInput = (newFirstNumber) => {
+	const resetInput = (newFirstNumber, newOperator?) => {
+		let newOperatorState = newOperator ? newOperator : initialState
 		setSecondNumber(initialState);
-		setOperator(initialState);
+		setOperator(newOperatorState);
 		setFirstNumber(newFirstNumber)
 	}
-	const onClickCalculate = () => {
+	const onClickCalculate = (newOperator?) => {
 
-		console.log(`operator: ${operator} first number ${firstNumber} second number ${secondNumber}`)
+		let optionalOperator = secondOperator ? secondOperator : initialState
+		console.log(` onClickCalculate operator: ${operator} second operator ${secondOperator}first number ${firstNumber} second number ${secondNumber}`)
 		let newTotalSum = operate(operator, parseInt(firstNumber), parseInt(secondNumber));
 		setTotalsum(newTotalSum);
-		resetInput(newTotalSum);
+		resetInput(newTotalSum, newOperator);
 
 	}
 	const operate = ((operator, num1, num2) => {
@@ -49,6 +52,10 @@ const Calc = () => {
 	})
 
 	const addOperator = (event) => {
+		if (firstNumber && operator && secondNumber) {
+			let secondOperator = event.target.id
+			onClickCalculate(secondOperator);
+		}
 		//if first number is null or operator is the same, do nothing
 		if (!firstNumber || operator === event.target.id) {
 			return
