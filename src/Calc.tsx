@@ -18,15 +18,17 @@ const Calc = () => {
 		setOperator(initialState);
 		setTotalsum(null);
 	};
-	const resetInput = () => {
+	const resetInput = (newFirstNumber) => {
 		setSecondNumber(initialState);
 		setOperator(initialState);
-		setFirstNumber(totalsum)
+		setFirstNumber(newFirstNumber)
 	}
-	const calculate = () => {
+	const onClickCalculate = () => {
 
 		console.log(`operator: ${operator} first number ${firstNumber} second number ${secondNumber}`)
-		setTotalsum(operate(operator, parseInt(firstNumber), parseInt(secondNumber)))
+		let newTotalSum = operate(operator, parseInt(firstNumber), parseInt(secondNumber));
+		setTotalsum(newTotalSum);
+		resetInput(newTotalSum);
 
 	}
 	const operate = ((operator, num1, num2) => {
@@ -59,7 +61,7 @@ const Calc = () => {
 
 
 	}
-	const setState = (event) => {
+	const onNumberClick = (event) => {
 		//if no operator, set state of first number, else set state of second number
 		!operator ? setFirstNumber(prevState => prevState + event.target.id) : setSecondNumber(prevState => prevState + event.target.id)
 	}
@@ -77,22 +79,22 @@ const Calc = () => {
 						<div className='totalsum-div'>result {totalsum}</div>
 					</div>
 					<div>
-						<button onClick={setState} id="1">1</button>
-						<button onClick={setState} id="2">2</button>
-						<button onClick={setState} id="3">3</button>
-						<button onClick={setState} id="4">4</button>
-						<button onClick={setState} id="5">5</button>
-						<button onClick={setState} id="6">6</button>
-						<button onClick={setState} id="7">7</button>
-						<button onClick={setState} id="8">8</button>
-						<button onClick={setState} id="9">9</button>
-						<button onClick={setState} id="0">0</button>
+						<button onClick={onNumberClick} id="1">1</button>
+						<button onClick={onNumberClick} id="2">2</button>
+						<button onClick={onNumberClick} id="3">3</button>
+						<button onClick={onNumberClick} id="4">4</button>
+						<button onClick={onNumberClick} id="5">5</button>
+						<button onClick={onNumberClick} id="6">6</button>
+						<button onClick={onNumberClick} id="7">7</button>
+						<button onClick={onNumberClick} id="8">8</button>
+						<button onClick={onNumberClick} id="9">9</button>
+						<button onClick={onNumberClick} id="0">0</button>
 						<button onClick={addOperator} id="+">+</button>
 						<button onClick={addOperator} id="-">-</button>
 						<button onClick={addOperator} id="/">/</button>
 						<button onClick={addOperator} id="*">*</button>
 						<button onClick={clearAllData} id="c">C</button>
-						<button onClick={calculate} id="=">=</button>
+						<button onClick={onClickCalculate} id="=">=</button>
 					</div>
 				</div>
 			</div>
