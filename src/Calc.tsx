@@ -1,74 +1,78 @@
-import React, { useEffect, useState } from 'react'
+import React, { MouseEvent, ButtonHTMLAttributes, useEffect, useState } from 'react'
 
 //npm run dev to run app
 const Calc = () => {
 
 	const initialState = ""
+	const [operator, setOperator] = useState(initialState);
+	const [firstNumber, setFirstNumber] = useState(initialState);
+	const [secondNumber, setSecondNumber] = useState(initialState);
+	const [totalsum, setTotalsum] = useState(null)
 
-	let [operator, setOperator] = useState(initialState);
-	let [secondOperator, setSecondOperator] = useState(initialState)
-	let [firstNumber, setFirstNumber] = useState(initialState);
-	let [secondNumber, setSecondNumber] = useState(initialState);
-	let [totalsum, setTotalsum] = useState(null)
-	// useEffect(() => {
-	// 	resetInput()
-	// }, [totalsum])
 	const clearAllData = () => {
 		setFirstNumber(initialState);
 		setSecondNumber(initialState);
 		setOperator(initialState);
 		setTotalsum(null);
 	};
-	const resetInput = (newFirstNumber, newOperator?) => {
+
+	const resetInputs = (newFirstNumber, newOperator?) => {
 		setSecondNumber(initialState);
 		setOperator(newOperator);
 		setFirstNumber(newFirstNumber)
-	}
-	const onClickCalculate = (event, secondoperator?) => {
-		let optionalOperator = secondoperator ? secondoperator : initialState
-		console.log(` onClickCalculate operator: ${operator} second operator ${secondOperator}first number ${firstNumber} second number ${secondNumber}`)
+	};
+
+	const onClickCalculate = (event?, secondoperator?) => {
+
+		const numberOrOperatorMissing = !firstNumber || !secondNumber || !operator;
+
+		if (numberOrOperatorMissing) {
+			return;
+		}
+
 		let newTotalSum = operate(operator, parseInt(firstNumber), parseInt(secondNumber));
+
 		setTotalsum(newTotalSum);
-		resetInput(newTotalSum, optionalOperator);
+		resetInputs(newTotalSum, secondoperator ? secondoperator : initialState);
 
 	}
-	const operate = ((operator, num1, num2) => {
-
-		if (operator == "+") {
-			return num1 + num2
+	const operate = ((operator: string, num1: number, num2: number) => {
+		switch (operator) {
+			case "+":
+				return num1 + num2
+			case "-":
+				return num1 - num2
+			case "/":
+				return num1 / num2
+			case "*":
+				return num1 * num2
+			default:
+				throw new Error
 		}
-		if (operator == "-") {
-			return num1 - num2
-		}
-		if (operator == "/") {
-			return num1 / num2
-		}
-		if (operator == "*") {
-			return num1 * num2
-		}
-		else return
 	})
 
 	const addOperator = (event) => {
-		if (firstNumber && operator && secondNumber) {
+		const operatorAlreadyExists = operator === event.target.id;
+		const allCalculateValuesExists = firstNumber && operator && secondNumber;
+
+		if (allCalculateValuesExists) {
 			let secondOperator = event.target.id
 			onClickCalculate(event, secondOperator);
-		}
-		//if first number is null or operator is the same, do nothing
-		if (!firstNumber || operator === event.target.id) {
+		} else if (!firstNumber || operatorAlreadyExists) {
 			return
 		} else {
 			setOperator(event.target.id)
 		}
 
 		console.log(`operator: ${operator} first number ${firstNumber} event.target.id ${event.target.id}`)
-
-
-
 	}
 	const onNumberClick = (event) => {
 		//if no operator, set state of first number, else set state of second number
-		!operator ? setFirstNumber(prevState => prevState + event.target.id) : setSecondNumber(prevState => prevState + event.target.id)
+		if (!operator) {
+			setFirstNumber(prevState => prevState + event.target.id)
+		} else {
+			setSecondNumber(prevState => prevState + event.target.id)
+		}
 	}
 
 	return (
@@ -78,8 +82,6 @@ const Calc = () => {
 				<div className='calc-flex'>
 					<h2>Calculator</h2>
 					<div className='result-flex'>
-						<h3></h3>
-
 						<div className='result-div'>input {firstNumber}{operator}{secondNumber}</div>
 						<div className='totalsum-div'>result {totalsum}</div>
 					</div>
