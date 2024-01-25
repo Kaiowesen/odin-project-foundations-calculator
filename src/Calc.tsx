@@ -20,18 +20,16 @@ const Calc = () => {
 		setTotalsum(null);
 	};
 	const resetInput = (newFirstNumber, newOperator?) => {
-		let newOperatorState = newOperator ? newOperator : initialState
 		setSecondNumber(initialState);
-		setOperator(newOperatorState);
+		setOperator(newOperator);
 		setFirstNumber(newFirstNumber)
 	}
-	const onClickCalculate = (newOperator?) => {
-
-		let optionalOperator = secondOperator ? secondOperator : initialState
+	const onClickCalculate = (event, secondoperator?) => {
+		let optionalOperator = secondoperator ? secondoperator : initialState
 		console.log(` onClickCalculate operator: ${operator} second operator ${secondOperator}first number ${firstNumber} second number ${secondNumber}`)
 		let newTotalSum = operate(operator, parseInt(firstNumber), parseInt(secondNumber));
 		setTotalsum(newTotalSum);
-		resetInput(newTotalSum, newOperator);
+		resetInput(newTotalSum, optionalOperator);
 
 	}
 	const operate = ((operator, num1, num2) => {
@@ -54,7 +52,7 @@ const Calc = () => {
 	const addOperator = (event) => {
 		if (firstNumber && operator && secondNumber) {
 			let secondOperator = event.target.id
-			onClickCalculate(secondOperator);
+			onClickCalculate(event, secondOperator);
 		}
 		//if first number is null or operator is the same, do nothing
 		if (!firstNumber || operator === event.target.id) {
